@@ -1,0 +1,18 @@
+node_modules/
+*.log
+.DS_Store
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Production files (should only be in dist/)
+*.min.js
+*.min.css
+index.dev.html
+
+# Configuration file (user-specific, use config.js.example as template)
+config.js
+
+# Build output (optional - uncomment if using GitHub Actions for build)
+dist/
+

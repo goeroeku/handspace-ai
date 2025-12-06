@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no"
+    />
+    <title id="page-title">HandSpace AI</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- Loading Screen -->
+    <div id="loader">
+      <div class="spinner"></div>
+      <div id="loader-text">Loading...</div>
+      <div style="font-size: 0.8em; margin-top: 10px; opacity: 0.7" id="loader-hint">
+        Allow Camera & Ensure Adequate Lighting
+      </div>
+    </div>
+
+    <!-- 3D Canvas -->
+    <div id="canvas-container"></div>
+
+    <!-- UI Overlay -->
+    <div id="ui-layer">
+      <!-- Header Credit (Top Left) -->
+      <div id="header-credit">
+        <span id="org-name">Organization Name</span>
+        <a id="org-website" href="#" target="_blank">
+          <span id="org-website-display">website.com</span>
+        </a>
+      </div>
+
+      <!-- Logo Image (Top Right) -->
+      <img
+        id="game-logo"
+        src=""
+        alt="Organization Logo"
+      />
+
+      <!-- Status Indicator (Top Center) -->
+      <div id="status">Waiting for hand...</div>
+
+      <!-- HUD Panel (Bottom Left) -->
+      <div class="hud-panel">
+        <h1>HandSpace Controls</h1>
+        <ul>
+          <li>
+            🖐
+            <strong>Telapak:</strong>
+            Kursor (Cyan)
+          </li>
+          <li>
+            🤏
+            <strong>Cubit:</strong>
+            Geser (Kuning)
+          </li>
+          <li>
+            ✊
+            <strong>Kepal:</strong>
+            Hancur (Merah)
+          </li>
+          <li>
+            👍
+            <strong>Jempol:</strong>
+            Copy (Hijau)
+          </li>
+          <li>
+            👋
+            <strong>Tepi:</strong>
+            Kamera
+          </li>
+        </ul>
+      </div>
+
+      <!-- Webcam Preview (Bottom Right) -->
+      <video id="webcam-preview" autoplay playsinline muted></video>
+    </div>
+
+    <!-- Configuration -->
+    <script src="config.js"></script>
+
+    <!-- Import Maps -->
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/",
+          "@mediapipe/tasks-vision": "https://esm.run/@mediapipe/tasks-vision"
+        }
+      }
+    </script>
+
+    <!-- Initialize UI from Config -->
+    <script>
+      // Wait for DOM and config to be ready
+      function applyConfig() {
+        if (window.APP_CONFIG) {
+          const config = window.APP_CONFIG;
+          
+          // Update page title
+          const pageTitle = document.getElementById('page-title');
+          if (pageTitle) {
+            pageTitle.textContent = `${config.appTitle} - ${config.organizationName}`;
+          }
+          
+          // Update header credit
+          const orgName = document.getElementById('org-name');
+          if (orgName) orgName.textContent = config.organizationName;
+          
+          const orgWebsiteLink = document.getElementById('org-website');
+          if (orgWebsiteLink) {
+            orgWebsiteLink.href = config.websiteUrl;
+          }
+          
+          const orgWebsiteDisplay = document.getElementById('org-website-display');
+          if (orgWebsiteDisplay) {
+            orgWebsiteDisplay.textContent = config.websiteDisplay;
+          }
+          
+          // Update logo
+          const logo = document.getElementById('game-logo');
+          if (logo) {
+            logo.src = config.logoUrl;
+            logo.alt = config.logoAlt;
+          }
+          
+          // Update loading text
+          const loaderText = document.getElementById('loader-text');
+          if (loaderText) loaderText.textContent = config.loadingText;
+          
+          const loaderHint = document.getElementById('loader-hint');
+          if (loaderHint) loaderHint.textContent = config.loadingHint;
+          
+          // Update status text (will be updated by script.js)
+          const status = document.getElementById('status');
+          if (status) status.textContent = config.waitingText;
+        } else {
+          // Retry if config not loaded yet
+          setTimeout(applyConfig, 50);
+        }
+      }
+      
+      // Apply config when DOM is ready
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', applyConfig);
+      } else {
+        applyConfig();
+      }
+    </script>
+
+    <!-- Main Logic -->
+    <script type="module" src="script.js"></script>
+  </body>
+</html>

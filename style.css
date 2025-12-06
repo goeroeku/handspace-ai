@@ -1,0 +1,251 @@
+body {
+  margin: 0;
+  overflow: hidden;
+  background-color: #000;
+  font-family: "Segoe UI", sans-serif;
+}
+#canvas-container {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+/* UI Overlay Container */
+#ui-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  pointer-events: none; /* Allows clicks to pass through to canvas where empty */
+  /* Safe area for mobile notch */
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* --- HEADER CREDIT (Top Left) --- */
+#header-credit {
+  position: absolute;
+  top: 25px;
+  left: 20px;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.9rem;
+  z-index: 15;
+  pointer-events: auto;
+  text-shadow: 0 0 5px #00ffff;
+  font-weight: bold;
+  border-left: 3px solid #00ffff;
+  padding-left: 10px;
+}
+#header-credit a {
+  color: #00ffff;
+  text-decoration: none;
+  display: block;
+  font-size: 0.75rem;
+  font-weight: normal;
+  opacity: 0.8;
+  margin-top: 2px;
+}
+
+/* --- HUD PANEL (Bottom Left) --- */
+.hud-panel {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  background: rgba(0, 10, 30, 0.75);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(100, 200, 255, 0.3);
+  border-radius: 10px;
+  padding: 10px; /* Padding sedikit dikurangi agar muat */
+  color: #fff;
+  pointer-events: auto;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  transition: all 0.3s ease;
+
+  /* Menyamakan ukuran dengan Webcam Preview */
+  width: 200px;
+  height: 150px;
+  box-sizing: border-box; /* Agar padding tidak menambah ukuran total */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+h1 {
+  margin: 0 0 6px 0;
+  font-size: 0.9rem; /* Font disesuaikan agar muat di 200x150 */
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #00ffff;
+  border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+  padding-bottom: 5px;
+}
+
+ul {
+  padding-left: 15px;
+  margin: 0;
+  font-size: 0.75rem; /* Font disesuaikan */
+  line-height: 1.4;
+}
+li {
+  margin-bottom: 2px;
+}
+
+/* --- LOGO (Top Right) --- */
+#game-logo {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 2px solid #00ffff;
+  box-shadow: 0 0 15px #00ffff;
+  object-fit: cover;
+  opacity: 0.9;
+  z-index: 15;
+  transition: all 0.3s ease;
+}
+
+/* --- STATUS INDICATOR (Top Center) --- */
+#status {
+  position: absolute;
+  top: 35px; /* Sedikit turun agar sejajar dengan logo/header */
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.85);
+  color: #0f0;
+  padding: 8px 25px;
+  border-radius: 30px;
+  border: 1px solid #0f0;
+  font-weight: bold;
+  font-size: 1em;
+  text-align: center;
+  box-shadow: 0 0 15px rgba(0, 255, 0, 0.2);
+  white-space: nowrap;
+  z-index: 20;
+}
+
+/* --- WEBCAM PREVIEW (Bottom Right) --- */
+#webcam-preview {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  width: 200px;
+  height: 140px;
+  border-radius: 10px;
+  border: 2px solid #00ffff;
+  background: #000;
+  transform: scaleX(-1);
+  object-fit: cover;
+  opacity: 0.7;
+  transition: all 0.3s ease;
+  pointer-events: auto;
+}
+
+/* --- LOADING SCREEN --- */
+#loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #00ffff;
+  flex-direction: column;
+}
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid rgba(0, 255, 255, 0.3);
+  border-top: 5px solid #00ffff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20px;
+}
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* --- MOBILE / TABLET BREAKPOINTS --- */
+@media (max-width: 768px) {
+  /* Header */
+  #header-credit {
+    font-size: 0.8rem;
+    top: 15px;
+    left: 15px;
+    max-width: 150px; /* Prevent overlap with status */
+  }
+
+  /* HUD moved slightly up on mobile to avoid touching edge too much */
+  .hud-panel {
+    /* Pada mobile kita biarkan sedikit lebih lebar agar teks terbaca,
+             karena webcam di mobile sangat kecil (100px) */
+    width: 180px;
+    height: auto; /* Auto height on mobile */
+    padding: 10px;
+    font-size: 0.7em;
+    bottom: 15px;
+    left: 15px;
+  }
+  h1 {
+    font-size: 0.8rem;
+  }
+  ul {
+    font-size: 0.7rem;
+    padding-left: 15px;
+  }
+
+  /* Logo */
+  #game-logo {
+    width: 50px;
+    height: 50px;
+    top: 15px;
+    right: 15px;
+  }
+
+  /* Status moved down to avoid header/logo */
+  #status {
+    top: 80px;
+    font-size: 0.8em;
+    padding: 5px 15px;
+  }
+
+  /* Webcam smaller */
+  #webcam-preview {
+    width: 150px;
+    height: 115px;
+    bottom: 25px;
+    right: 15px;
+    opacity: 0.6;
+  }
+}
+
+/* Landscape Mobile Fix */
+@media (max-width: 900px) and (orientation: landscape) {
+  #status {
+    top: 10px;
+    font-size: 0.8em;
+  }
+  .hud-panel {
+    width: 180px;
+    max-height: auto;
+    overflow-y: auto;
+    font-size: 0.6em;
+  }
+  #webcam-preview {
+    width: 120px;
+    height: 90px;
+  }
+}
+

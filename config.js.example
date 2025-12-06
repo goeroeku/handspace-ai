@@ -1,0 +1,30 @@
+// Application Configuration Template
+// Copy this file to config.js and customize it for your organization
+// 
+// Usage:
+//   1. Copy this file: cp config.js.example config.js
+//   2. Edit config.js with your organization's information
+//   3. config.js is in .gitignore, so it won't be committed to the repository
+
+window.APP_CONFIG = {
+  // Organization/School Information
+  organizationName: "Your Organization Name",
+  websiteUrl: "https://your-website.com",
+  websiteDisplay: "www.your-website.com",
+  
+  // Logo Configuration
+  logoUrl: "https://your-website.com/logo.png",
+  logoAlt: "Organization Logo",
+  
+  // Application Title
+  appTitle: "HandSpace AI",
+  
+  // Loading Messages (can be customized)
+  loadingText: "Loading AI System...",
+  loadingHint: "Allow Camera & Ensure Adequate Lighting",
+  waitingText: "Waiting for hand...",
+  
+  // Language (for future i18n support)
+  language: "en"
+};
+

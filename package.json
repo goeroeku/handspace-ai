@@ -1,0 +1,28 @@
+{
+  "name": "handspace-ai",
+  "version": "1.0.0",
+  "description": "HandSpace AI - AI-powered hand gesture control for 3D space interaction",
+  "scripts": {
+    "start": "npx live-server --port=8000 --open=/index.html --watch=.",
+    "start:dev": "npx live-server --port=8000 --open=/index.html --watch=.",
+    "start:prod": "npx http-server dist -p 8000 -o",
+    "build": "node build.js",
+    "minify": "npm run build",
+    "clean": "node -e \"const fs=require('fs'); const path=require('path'); if(fs.existsSync('dist')) { fs.rmSync('dist', {recursive: true, force: true}); console.log('✅ Cleaned dist folder'); } else { console.log('ℹ️  dist folder does not exist'); }\"",
+    "deploy": "npm run build && node -e \"const fs=require('fs'); const path=require('path'); const distFiles=fs.readdirSync('dist'); distFiles.forEach(f=>{fs.copyFileSync(path.join('dist',f),f);}); console.log('✅ Copied dist files to root for deployment');\"",
+    "pm2:start": "pm2 start ecosystem.config.js",
+    "pm2:stop": "pm2 stop handspace-ai",
+    "pm2:restart": "pm2 restart handspace-ai",
+    "pm2:delete": "pm2 delete handspace-ai",
+    "pm2:logs": "pm2 logs handspace-ai"
+  },
+  "devDependencies": {
+    "terser": "^5.24.0",
+    "cssnano": "^6.0.1",
+    "postcss": "^8.4.32",
+    "javascript-obfuscator": "^4.1.0",
+    "http-server": "^14.1.1",
+    "live-server": "^1.2.2"
+  }
+}
+
